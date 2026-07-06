@@ -8,6 +8,49 @@
 <body>
     Lmao
 
-    <script src="https://pl30235038.effectivecpmnetwork.com/df/20/d5/df20d596ad76e18d1266038c7e9ff72b.js"></script>
-</body>
+    <script>
+        const COOLDOWN_TIME = 5 * 60 * 1000;
+        let isCooldown = false;
+        let currentAdScript = null;
+
+        function loadAdScript() {
+            // Nếu đang trong thời gian chờ (delay), không làm gì cả
+            if (isCooldown) return;
+
+            console.log("Nạp Ads và sẵn sàng kích hoạt cho cú click tiếp theo...");
+            
+            currentAdScript = document.createElement('script');
+            currentAdScript.src = 'https://pl30235038.effectivecpmnetwork.com/df/20/d5/df20d596ad76e18d1266038c7e9ff72b.js';
+            currentAdScript.id = 'adsterra-script';
+            document.body.appendChild(currentAdScript);
+
+            // Lắng nghe cú click của người dùng để kích hoạt Ads
+            window.addEventListener('click', handleAdClick, { once: true });
+        }
+
+        function handleAdClick() {
+            // Người dùng vừa click -> Ads sẽ nổ. Ngay lập tức kích hoạt trạng thái Delay
+            isCooldown = true;
+            console.log("Ads đã nổ! Bắt đầu tính thời gian delay khóa Ads...");
+
+            // Gỡ bỏ đoạn script quảng cáo hiện tại ra khỏi HTML ngay lập tức để chặn các cú click tiếp theo
+            setTimeout(() => {
+                if (currentAdScript) {
+                    currentAdScript.remove();
+                    // Xóa tận gốc các thẻ div/iframe ẩn mà script Adsterra tự đẻ ra nếu có
+                    const adContainers = document.querySelectorAll('iframe[src*="effectivecpmnetwork"], div[id*="adsterra"]');
+                    adContainers.forEach(el => el.remove());
+                }
+            }, 500); // Đợi 0.5 giây để script kịp mở tab rồi xóa
+
+            // Chờ hết thời gian COOLDOWN_TIME mới cho nạp lại Ads
+            setTimeout(() => {
+                isCooldown = false;
+                loadAdScript(); // Nạp lại script để sẵn sàng cho lần nổ tiếp theo
+            }, COOLDOWN_TIME);
+        }
+
+        // Chạy hàm nạp Ads lần đầu tiên khi người dùng vừa vào web
+        loadAdScript();
+            </script>
 </html>
