@@ -1,3 +1,33 @@
+.logo-text {
+    margin: 0;
+    padding: 0;
+    
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 24px;          /* Kích cỡ chữ vừa vặn cho một thanh Header */
+    font-weight: 700;          /* Độ đậm của chữ (Bold) */
+    line-height: 1.2;
+    letter-spacing: -0.5px;    /* Khoảng cách giữa các chữ khít lại nhìn sẽ hiện đại hơn */
+
+    color: #ffffff; 
+    
+    /* HOẶC Kiểu Gradient đổ màu chuyển sắc thời thượng (Nếu thích thì bỏ dấu khóa /* đi nhé) */
+    /*
+    background: linear-gradient(45deg, #0070f3, #00dfd8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    */
+
+    /* 4. Tối ưu hiển thị */
+    cursor: pointer;           /* Biến con trỏ chuột thành hình bàn tay khi di chuyển vào logo */
+    user-select: none;         /* Không cho người dùng bôi đen kéo chữ logo */
+    transition: opacity 0.2s ease; /* Tạo hiệu ứng mượt mà khi hover */
+}
+
+/* Hiệu ứng mờ nhẹ khi người dùng di chuột vào logo */
+.logo-text:hover {
+    opacity: 0.85;
+}
+
 .time-dashboard {
     display: flex;
     gap: 24px;
