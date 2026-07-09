@@ -4,53 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <style>
+        body {
+            margin: 0;
+            background-color: #0f172a; /* Nền tối sang trọng */
+            color: #ffffff;
+            font-family: sans-serif;
+        }
+        /* Style cho các quốc gia trên bản đồ */
+        .timezone-path {
+            fill: #334155;
+            stroke: #1e293b;
+            stroke-width: 0.5px;
+            cursor: pointer;
+            transition: fill 0.2s;
+        }
+        /* Hiệu ứng sáng lên khi di chuột vào quốc gia */
+        .timezone-path:hover {
+            fill: #3b82f6;
+        }
+        /* Giao diện cho hộp thông tin (Tooltip) */
+        #tooltip {
+            position: absolute;
+            display: none;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid #3b82f6;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            pointer-events: none; /* Tránh cản trở sự kiện chuột */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+    </style>
+    <link rel="stylesheet" href="time.css">
 </head>
 <body>
-    Lmao
+    <div class="time-dashboard">
+        <div class="clock-card local">
+            <div class="card-label">Vị trí của bạn</div>
+            <div id="local-tz" class="timezone-name">Đang tải...</div>
+            <div id="local-time" class="time-display">00:00:00</div>
+            <div id="local-date" class="date-display">---, --/--/----</div>
+        </div>
 
-    <script>
-        const COOLDOWN_TIME = 5 * 60 * 1000;
-        let isCooldown = false;
-        let currentAdScript = null;
+        <div class="clock-card selected">
+            <div class="card-label">Vùng được chọn trên bản đồ</div>
+            <div id="selected-tz" class="timezone-name">Europe/London</div>
+            <div id="selected-time" class="time-display">00:00:00</div>
+            <div id="selected-date" class="date-display">---, --/--/----</div>
+        </div>
+    </div>
 
-        function loadAdScript() {
-            // Nếu đang trong thời gian chờ (delay), không làm gì cả
-            if (isCooldown) return;
+    <h2 style="text-align: center; margin-top: 20px;">Bản đồ Múi giờ Thế giới</h2>
+    
+    <div id="map-container" style="display: flex; justify-content: center;"></div>
+    
+    <div id="tooltip"></div>
+    <script src="index.js" type="module"></script>
 
-            console.log("Nạp Ads và sẵn sàng kích hoạt cho cú click tiếp theo...");
-            
-            currentAdScript = document.createElement('script');
-            currentAdScript.src = 'https://pl30235038.effectivecpmnetwork.com/df/20/d5/df20d596ad76e18d1266038c7e9ff72b.js';
-            currentAdScript.id = 'adsterra-script';
-            document.body.appendChild(currentAdScript);
-
-            // Lắng nghe cú click của người dùng để kích hoạt Ads
-            window.addEventListener('click', handleAdClick, { once: true });
-        }
-
-        function handleAdClick() {
-            // Người dùng vừa click -> Ads sẽ nổ. Ngay lập tức kích hoạt trạng thái Delay
-            isCooldown = true;
-            console.log("Ads đã nổ! Bắt đầu tính thời gian delay khóa Ads...");
-
-            // Gỡ bỏ đoạn script quảng cáo hiện tại ra khỏi HTML ngay lập tức để chặn các cú click tiếp theo
-            setTimeout(() => {
-                if (currentAdScript) {
-                    currentAdScript.remove();
-                    // Xóa tận gốc các thẻ div/iframe ẩn mà script Adsterra tự đẻ ra nếu có
-                    const adContainers = document.querySelectorAll('iframe[src*="effectivecpmnetwork"], div[id*="adsterra"]');
-                    adContainers.forEach(el => el.remove());
-                }
-            }, 500); // Đợi 0.5 giây để script kịp mở tab rồi xóa
-
-            // Chờ hết thời gian COOLDOWN_TIME mới cho nạp lại Ads
-            setTimeout(() => {
-                isCooldown = false;
-                loadAdScript(); // Nạp lại script để sẵn sàng cho lần nổ tiếp theo
-            }, COOLDOWN_TIME);
-        }
-
-        // Chạy hàm nạp Ads lần đầu tiên khi người dùng vừa vào web
-        loadAdScript();
-            </script>
+    <script src="time.js"></script>
 </html>
