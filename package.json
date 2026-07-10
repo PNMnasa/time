@@ -19,8 +19,5 @@
       "onFail": "download"
     }
   },
-  "type": "module",
-  "devDependencies": {
-    "vite": "^8.1.4"
-  }
+  "type": "module"
 }
